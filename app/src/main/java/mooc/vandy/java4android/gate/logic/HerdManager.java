@@ -47,28 +47,20 @@ public class HerdManager {
     }
     public void simulateHerd(Random rand){
       int size = HERD;
-      int snailsinside = size + 1;
+      int snailsinside = size;
       int snailsoutside = 0;
 //        while(size >= 0 && size<= HERD){
       for(int i = 0;i < MAX_ITERATIONS;i++){
               int random = rand.nextInt(2);
               if(random == 0){
-                  size +=  mWestGate.thru(rand.nextInt(snailsoutside));
-                  if(size < 24){
-                      snailsoutside = HERD - size +1;
-                      snailsinside = size + 1;
-                  }
-                  else{
-                      snailsoutside = HERD - size;
-                  }
-                  mOut.println("There are currently "+size+" snails in the pen and "+ (HERD-size) +" snails in the pasture");
+                  snailsinside +=  mWestGate.thru(rand.nextInt(snailsoutside)+1);
+                  mOut.println("There are currently "+snailsinside+" snails in the pen and "+ (HERD-size) +" snails in the pasture");
               }
               else{
-                  size -= mEastGate.thru(rand.nextInt(snailsinside));
-                  snailsinside = size + 1;
-                  snailsoutside = HERD - size +1;
+                  snailsinside -= mEastGate.thru(rand.nextInt(snailsoutside) +1);
                   mOut.println("There are currently "+size+" snails in the pen and "+ (HERD-size) +" snails in the pasture");
               }
+            snailsoutside = HERD - snailsinside;
           }
       //}
     }
