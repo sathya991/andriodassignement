@@ -46,23 +46,24 @@ public class HerdManager {
         mEastGate.open(Gate.OUT);
     }
     public void simulateHerd(Random rand){
-   int size = HERD;
+    int size = HERD;
       int snailsoutside = 0;
+        boolean random;
         mOut.println("There are currently 24 snails in the pen and 0 snails in the pasture");
-      for(int i = 0;i < MAX_ITERATIONS;i++){
-              int random = rand.nextInt(2);
-              if(snailsoutside == 0 && random == 0){
-                  random = 1;
+      for(int i = 0;i < MAX_ITERATIONS-1;i++){
+              if(snailsoutside == 0){
+                  random = true;
               }
-              if(random == 0){
+              else if(snailsoutside == 24){
+              random = false;
+          }else{
+                  random = rand.nextBoolean();
+              }
+              if(random == false){
                    size +=  mWestGate.thru(rand.nextInt(snailsoutside) + 1);
                    snailsoutside = HERD - size;
-                  if(HERD - size == 0){
+                  if(snailsoutside == 0){
                       size += mEastGate.thru(rand.nextInt(size)+1);
-                      snailsoutside = HERD - size;
-                  }
-                  if(HERD-size == 24){
-                      size += mWestGate.thru(rand.nextInt(snailsoutside)+1);
                       snailsoutside = HERD - size;
                   }
                   mOut.println("There are currently "+size+" snails in the pen and " +snailsoutside+" snails in the pasture");
@@ -74,12 +75,10 @@ public class HerdManager {
                       size += mEastGate.thru(rand.nextInt(size)+1);
                       snailsoutside = HERD - size;
                   }
-                  if(HERD-size == 24){
-                      size += mWestGate.thru(rand.nextInt(snailsoutside)+1);
-                      snailsoutside = HERD - size;
-                  }
                   mOut.println("There are currently "+size+" snails in the pen and " +snailsoutside+" snails in the pasture");
               }
           }
+        mOut.println("There are currently 24 snails in the pen and 0 snails in the pasture");
+    }
 
 }
