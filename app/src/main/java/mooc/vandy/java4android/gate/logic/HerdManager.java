@@ -46,7 +46,7 @@ public class HerdManager {
         mEastGate.open(Gate.OUT);
     }
     public void simulateHerd(Random rand){
-     int size = HERD;
+    int size = HERD;
       int pasture = 0;
       int snailsinside = size + 1;
       int snailsoutside = 0;
@@ -63,14 +63,12 @@ public class HerdManager {
                    size+=mWestGate.thru(0);
                   if(size < 24){
                       snailsoutside = HERD - size +1;
-                      snailsinside = size + 1;
-                      pasture = HERD - size;
                   }
                   else{
                       snailsoutside = HERD - size;
-                      snailsinside = size + 1;
-                      pasture = HERD - size;
                   }
+                  snailsinside = size + 1;
+                  pasture = HERD - size;
                   if(pasture == 0){
                       size += mEastGate.thru(rand.nextInt(snailsinside));
                       pasture = HERD - size;
@@ -93,5 +91,6 @@ public class HerdManager {
                   mOut.println("There are currently "+size+" snails in the pen and" +pasture+" snails in the pasture");
               }
           }
+    }
 
 }
