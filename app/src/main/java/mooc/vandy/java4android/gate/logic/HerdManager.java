@@ -50,7 +50,7 @@ public class HerdManager {
       int snailsoutside = 0;
         boolean random;
         mOut.println("There are currently 24 snails in the pen and 0 snails in the pasture");
-      for(int i = 0;i < MAX_ITERATIONS-1;i++){
+      for(int i = 0;i < MAX_ITERATIONS;i++){
               if(snailsoutside == 0){
                   random = true;
               }
@@ -62,23 +62,13 @@ public class HerdManager {
               if(random == false){
                    size +=  mWestGate.thru(rand.nextInt(snailsoutside) + 1);
                    snailsoutside = HERD - size;
-                  if(snailsoutside == 0){
-                      size += mEastGate.thru(rand.nextInt(size)+1);
-                      snailsoutside = HERD - size;
-                  }
                   mOut.println("There are currently "+size+" snails in the pen and " +snailsoutside+" snails in the pasture");
               }
               else{
                   size += mEastGate.thru(rand.nextInt(size)+1);
                   snailsoutside = HERD - size;
-                  if(HERD - size == 0){
-                      size += mEastGate.thru(rand.nextInt(size)+1);
-                      snailsoutside = HERD - size;
-                  }
                   mOut.println("There are currently "+size+" snails in the pen and " +snailsoutside+" snails in the pasture");
               }
           }
-        mOut.println("There are currently 24 snails in the pen and 0 snails in the pasture");
     }
-
 }
