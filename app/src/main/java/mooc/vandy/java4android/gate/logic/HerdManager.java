@@ -46,25 +46,52 @@ public class HerdManager {
         mEastGate.open(Gate.OUT);
     }
     public void simulateHerd(Random rand){
-      int size = HERD;
-      int snailsinside = size;
+     int size = HERD;
+      int pasture = 0;
+      int snailsinside = size + 1;
       int snailsoutside = 0;
-//        while(size >= 0 && size<= HERD){
+        mOut.println("There are currently 24 snails in the pen and 0 snails in the pasture");
       for(int i = 0;i < MAX_ITERATIONS;i++){
               int random = rand.nextInt(2);
+              if(pasture == 0 && random == 0){
+                  random = 1;
+              }
               if(random == 0){
-                  snailsinside +=  mWestGate.thru(rand.nextInt(snailsoutside)+1);
-                  mOut.println("There are currently "+snailsinside+" snails in the pen and "+ (HERD-size) +" snails in the pasture");
+                  if(snailsoutside > 0)
+                   size +=  mWestGate.thru(rand.nextInt(snailsoutside));
+                  else
+                   size+=mWestGate.thru(0);
+                  if(size < 24){
+                      snailsoutside = HERD - size +1;
+                      snailsinside = size + 1;
+                      pasture = HERD - size;
+                  }
+                  else{
+                      snailsoutside = HERD - size;
+                      snailsinside = size + 1;
+                      pasture = HERD - size;
+                  }
+                  if(pasture == 0){
+                      size += mEastGate.thru(rand.nextInt(snailsinside));
+                      pasture = HERD - size;
+                      snailsinside = size + 1;
+                      snailsoutside = HERD - size +1;
+                  }
+                  mOut.println("There are currently "+size+" snails in the pen and" +pasture+" snails in the pasture");
               }
               else{
-                  snailsinside -= mEastGate.thru(rand.nextInt(snailsoutside) +1);
-                  mOut.println("There are currently "+size+" snails in the pen and "+ (HERD-size) +" snails in the pasture");
+                  size += mEastGate.thru(rand.nextInt(snailsinside));
+                  pasture = HERD - size;
+                  snailsinside = size + 1;
+                  snailsoutside = HERD - size +1;
+                  if(pasture == 24){
+                      size += mWestGate.thru(rand.nextInt(snailsoutside));
+                      pasture = HERD - size;
+                      snailsinside = size + 1;
+                      snailsoutside = HERD - size +1;
+                  }
+                  mOut.println("There are currently "+size+" snails in the pen and" +pasture+" snails in the pasture");
               }
-            snailsoutside = HERD - snailsinside;
           }
-      //}
-    }
-    // TODO -- Fill your code in here
-
 
 }
